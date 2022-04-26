@@ -14,7 +14,21 @@ from torch.utils.collect_env import get_pretty_env_info
 import yaml
 import torch
 
+#
+parser = argparse.ArgumentParser(description="ReID Baseline Inference")
+parser.add_argument("--config_file", default="", help="path to config file", type=str)
+parser.add_argument("opts", help="Modify config options using the command-line", default=None,
+                    nargs=argparse.REMAINDER)
 
+args = parser.parse_args()
+
+if args.config_file != "":
+    cfg.merge_from_file(args.config_file)
+
+cfg.merge_from_list(args.opts)
+cfg.freeze()
+
+#
 if args.config != '':
     with open(args.config, 'r') as f:
         config = yaml.load(f)
